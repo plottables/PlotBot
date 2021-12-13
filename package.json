@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "a discord bot to provide info for plottables",
   "engines": {
-    "node": "14.x"
+    "node": "16.x",
+    "npm": "*"
   },
   "main": "index.js",
   "scripts": {
