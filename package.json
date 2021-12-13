@@ -1,0 +1,30 @@
+{
+  "name": "plotbot",
+  "version": "1.0.0",
+  "description": "a discord bot to provide info for plottables",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "prettier": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plottables/PlotBot.git"
+  },
+  "author": "Matt Jacobson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plottables/PlotBot/issues"
+  },
+  "homepage": "https://github.com/plottables/PlotBot#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "ethers": "^5.5.2",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "prettier": "2.5.1"
+  }
+}
