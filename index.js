@@ -1,15 +1,7 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const ethers = require("ethers");
-// const express = require("express");
 const randomMints = require("./RandomMints/randomMints").randomMints;
-
-// const app = express();
-// const port = process.env.PORT || 3000;
-// app.use(express.static(__dirname + "/public"));
-// app.listen(port, function () {
-//   console.log("Server is listening on port ", port);
-// });
 
 const client = new Discord.Client({
   intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
