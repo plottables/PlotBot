@@ -138,20 +138,22 @@ class ListingsAndSales {
     const timestamp = Math.round(new Date().getTime() / 1000) - seconds;
 
     const salesData = await this.getSalesData(timestamp);
-    salesData?.asset_events?.reverse().forEach((sale) => {
+    console.log(`found ${salesData?.asset_events?.length || 0} sales`);
+    for (const sale of salesData?.asset_events?.reverse()) {
       const message = this.buildSalesMessage(sale);
-      client.channels.cache
+      await client.channels.cache
         .get(config.salesChannelId)
         .send({ embeds: [message] });
-    });
+    }
 
     const listingsData = await this.getListingsData(timestamp);
-    listingsData?.asset_events?.reverse().forEach((listing) => {
+    console.log(`found ${listingsData?.asset_events?.length || 0} listings`);
+    for (const listing of listingsData?.asset_events?.reverse()) {
       const message = this.buildListingsMessage(listing);
-      client.channels.cache
+      await client.channels.cache
         .get(config.listingsChannelId)
         .send({ embeds: [message] });
-    });
+    }
   }
 }
 
