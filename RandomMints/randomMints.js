@@ -125,15 +125,12 @@ class RandomMints {
 
 function parseOwnerInfo(ownerAccount) {
   let address = ownerAccount.address;
-  let addressPreview =
-    address !== null ? address.slice(0, 8) : "UNKNOWN_ADDRESS";
+  let addressPreview = address !== null ? address.slice(0, 8) : "unknown";
   let addressOpenSeaURL = `https://opensea.io/accounts/${address}`;
   let ownerUsername =
-    ownerAccount.user !== null
-      ? ownerAccount.user.username
-      : "UNKNOWN_USERNAME";
+    ownerAccount.user !== null ? ownerAccount.user.username : "unknown";
   if (ownerUsername === null) {
-    ownerUsername = "UNKNOWN_USERNAME";
+    ownerUsername = "unknown";
   }
 
   return {
@@ -153,13 +150,11 @@ function parseSaleInfo(saleInfo) {
     if (sellerAccount !== null) {
       sellerAddress = sellerAccount.address;
       sellerAddressPreview =
-        sellerAddress !== null ? sellerAddress.slice(0, 8) : "UNKNOWN_ADDRESS";
+        sellerAddress !== null ? sellerAddress.slice(0, 8) : "unknown";
       sellerUsername =
-        sellerAccount.user !== null
-          ? sellerAccount.user.username
-          : "UNKNOWN_USERNAME";
+        sellerAccount.user !== null ? sellerAccount.user.username : "unknown";
       if (sellerUsername === null) {
-        sellerUsername = "UNKNOWN_USERNAME";
+        sellerUsername = "unknown";
       }
     }
 
@@ -180,5 +175,4 @@ function parseSaleInfo(saleInfo) {
   };
 }
 
-let randomMints = new RandomMints();
-module.exports.randomMints = randomMints;
+module.exports.randomMints = new RandomMints();
