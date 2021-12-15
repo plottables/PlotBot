@@ -1,7 +1,7 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const express = require("express");
-const config = require("../config");
+const config = require("./config");
 const randomMints = require("./RandomMints/randomMints").randomMints;
 const listingsAndSales =
   require("./ListingsAndSales/listingsAndSales").listingsAndSales;
