@@ -4,7 +4,9 @@ const config = require("../config");
 const { ethers } = require("ethers");
 
 class ListingsAndSales {
-  constructor() {}
+  constructor() {
+    this.eventHistory = {};
+  }
 
   async fetchData(params) {
     let responseText = "";
@@ -133,27 +135,60 @@ class ListingsAndSales {
     return message;
   }
 
+  addToEventHistory(eventId, eventDate) {
+    if (!(eventId in this.eventHistory)) {
+      this.eventHistory[eventId] = eventDate;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  cleanEventHistory() {
+    const seconds = parseInt(config.listsAndSalesStaleSeconds);
+    const timestamp = Math.round(new Date().getTime() / 1000) - seconds;
+    for (const [key, value] of Object.entries(this.eventHistory)) {
+      if (value < timestamp) {
+        delete this.eventHistory[key];
+      }
+    }
+  }
+
   async sendMessages(client) {
-    const seconds = parseInt(config.listsAndSalesIntervalSeconds);
+    const seconds = parseInt(config.listsAndSalesStaleSeconds);
     const timestamp = Math.round(new Date().getTime() / 1000) - seconds;
 
     const salesData = await this.getSalesData(timestamp);
-    console.log(`found ${salesData?.asset_events?.length || 0} sales`);
     for (const sale of salesData?.asset_events?.reverse()) {
-      const message = this.buildSalesMessage(sale);
-      await client.channels.cache
-        .get(config.salesChannelId)
-        .send({ embeds: [message] });
+      if (
+        this.addToEventHistory(
+          sale.transaction.transaction_hash,
+          Date.parse(sale.created_date)
+        )
+      ) {
+        const message = this.buildSalesMessage(sale);
+        await client.channels.cache
+          .get(config.salesChannelId)
+          .send({ embeds: [message] });
+      }
     }
 
     const listingsData = await this.getListingsData(timestamp);
-    console.log(`found ${listingsData?.asset_events?.length || 0} listings`);
     for (const listing of listingsData?.asset_events?.reverse()) {
-      const message = this.buildListingsMessage(listing);
-      await client.channels.cache
-        .get(config.listingsChannelId)
-        .send({ embeds: [message] });
+      if (
+        this.addToEventHistory(
+          listing.asset.id,
+          Date.parse(listing.created_date)
+        )
+      ) {
+        const message = this.buildListingsMessage(listing);
+        await client.channels.cache
+          .get(config.listingsChannelId)
+          .send({ embeds: [message] });
+      }
     }
+
+    this.cleanEventHistory();
   }
 }
 
