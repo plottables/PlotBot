@@ -18,5 +18,15 @@
         "editionSize": 256
       }
     ]
+  },
+  "934860865713360976": {
+    "name": "dandan-dca",
+    "projects": [
+      {
+        "projectId": 2,
+        "name": "Really Random Rock",
+        "editionSize": 350
+      }
+    ]
   }
 }
