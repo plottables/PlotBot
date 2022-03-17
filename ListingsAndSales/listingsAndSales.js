@@ -29,7 +29,6 @@ class ListingsAndSales {
   async getListingsData(timestamp) {
     return await this.fetchData(
       new URLSearchParams({
-        offset: "0",
         event_type: "created",
         only_opensea: "false",
         occurred_after: timestamp.toString(),
@@ -42,7 +41,6 @@ class ListingsAndSales {
   async getSalesData(timestamp) {
     return await this.fetchData(
       new URLSearchParams({
-        offset: "0",
         event_type: "successful",
         only_opensea: "false",
         occurred_after: timestamp.toString(),
@@ -159,7 +157,7 @@ class ListingsAndSales {
     const timestamp = Math.round(new Date().getTime() / 1000) - seconds;
 
     const salesData = await this.getSalesData(timestamp);
-    console.log(`salesData: ${salesData.toString()}`);
+    console.log(`salesData: ${JSON.stringify(salesData)}`);
     if (salesData?.asset_events) {
       for (const sale of salesData?.asset_events?.reverse()) {
         if (
@@ -177,7 +175,7 @@ class ListingsAndSales {
     }
 
     const listingsData = await this.getListingsData(timestamp);
-    console.log(`listingsData: ${listingsData.toString()}`);
+    console.log(`listingsData: ${JSON.stringify(listingsData)}`);
     if (listingsData?.asset_events) {
       for (const listing of listingsData?.asset_events?.reverse()) {
         if (
