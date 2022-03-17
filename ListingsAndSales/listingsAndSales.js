@@ -159,6 +159,7 @@ class ListingsAndSales {
     const timestamp = Math.round(new Date().getTime() / 1000) - seconds;
 
     const salesData = await this.getSalesData(timestamp);
+    console.log(`salesData: ${salesData}`);
     if (salesData?.asset_events) {
       for (const sale of salesData?.asset_events?.reverse()) {
         if (
@@ -176,6 +177,7 @@ class ListingsAndSales {
     }
 
     const listingsData = await this.getListingsData(timestamp);
+    console.log(`listingsData: ${listingsData}`);
     if (listingsData?.asset_events) {
       for (const listing of listingsData?.asset_events?.reverse()) {
         if (

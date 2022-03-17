@@ -25,10 +25,10 @@ setInterval(async function () {
   await listingsAndSales.sendMessages(client);
 }, config.listsAndSalesIntervalSeconds * 1000);
 
-client.on("messageCreate", async (msg) => {
-  if (msg.content.startsWith("#")) {
-    randomMints.routeMessage(msg);
-  }
-});
+// client.on("messageCreate", async (msg) => {
+//   if (msg.content.startsWith("#")) {
+//     randomMints.routeMessage(msg);
+//   }
+// });
 
 client.login(process.env.CLIENT_TOKEN);
