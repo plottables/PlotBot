@@ -159,32 +159,36 @@ class ListingsAndSales {
     const timestamp = Math.round(new Date().getTime() / 1000) - seconds;
 
     const salesData = await this.getSalesData(timestamp);
-    for (const sale of salesData?.asset_events?.reverse()) {
-      if (
-        this.addToEventHistory(
-          sale.transaction.transaction_hash,
-          Date.parse(sale.created_date)
-        )
-      ) {
-        const message = this.buildSalesMessage(sale);
-        await client.channels.cache
-          .get(config.salesChannelId)
-          .send({ embeds: [message] });
+    if (salesData?.asset_events) {
+      for (const sale of salesData?.asset_events?.reverse()) {
+        if (
+          this.addToEventHistory(
+            sale.transaction.transaction_hash,
+            Date.parse(sale.created_date)
+          )
+        ) {
+          const message = this.buildSalesMessage(sale);
+          await client.channels.cache
+            .get(config.salesChannelId)
+            .send({ embeds: [message] });
+        }
       }
     }
 
     const listingsData = await this.getListingsData(timestamp);
-    for (const listing of listingsData?.asset_events?.reverse()) {
-      if (
-        this.addToEventHistory(
-          listing.asset.id,
-          Date.parse(listing.created_date)
-        )
-      ) {
-        const message = this.buildListingsMessage(listing);
-        await client.channels.cache
-          .get(config.listingsChannelId)
-          .send({ embeds: [message] });
+    if (listingsData?.asset_events) {
+      for (const listing of listingsData?.asset_events?.reverse()) {
+        if (
+          this.addToEventHistory(
+            listing.asset.id,
+            Date.parse(listing.created_date)
+          )
+        ) {
+          const message = this.buildListingsMessage(listing);
+          await client.channels.cache
+            .get(config.listingsChannelId)
+            .send({ embeds: [message] });
+        }
       }
     }
 
